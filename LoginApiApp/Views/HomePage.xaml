@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:LoginApiApp.Views"
+             x:Class="LoginApiApp.Views.HomePage"
+             Title="HomePage">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="10">
+            <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10">
+                <Frame BackgroundColor="White" Padding="10" CornerRadius="20">
+                    <StackLayout>
+                        <Image Source="trajet.jpg" Aspect="AspectFit" HeightRequest="200"/>
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Text=" List Of Trajets" 
+                                Clicked="OnGetTrajetClicked"
+                                BackgroundColor="BlueViolet"
+                                FontAttributes="Bold"
+                                CornerRadius="22"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+            <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10">
+                <Frame BackgroundColor="White" Padding="10" CornerRadius="20">
+                    <StackLayout>
+                        <Image Source="bus.jpg" Aspect="AspectFit" HeightRequest="200"/>
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Text=" List Of Vehicules" 
+                                Clicked="OnGetVehiculeClicked"
+                                BackgroundColor="BlueViolet"
+                                FontAttributes="Bold"
+                                CornerRadius="22"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:LoginApiApp.Views"
+             x:Class="LoginApiApp.Views.EditVehicule"
+             Title="">
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="10">
+            <Label 
+              Text=" Welcome !"
+              HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="Large" />
+            <Entry x:Name="vehiculeIdEntry" Placeholder="Enter Vehicule ID" Keyboard="Numeric"/>
+            <Button Text="Load Vehicule" 
+                 Clicked="OnLoadVehiculeClicked"
+                 FontAttributes="Bold"
+                 CornerRadius="24"
+                 BackgroundColor="BlueViolet"
+                 TextColor="White"/>
+            <Entry x:Name="modèleEntry" Placeholder="Modèle"/>
+            <Entry x:Name="plaqueImmatriculationEntry" Placeholder="PlaqueImmatriculation"/>
+            <Button Text="Edit Vehicule" 
+                 Clicked="OnUpdateClicked"
+                 FontAttributes="Bold"
+                 CornerRadius="24"
+                 BackgroundColor="BlueViolet"
+                 TextColor="White"/>
+            <Button x:Name="btnCancel"
+                 Text="Cancel" 
+                 Clicked="btnCancel_Clicked"
+                 FontAttributes="Bold"
+                 CornerRadius="24"
+                 BackgroundColor="Red"
+                 TextColor="White"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

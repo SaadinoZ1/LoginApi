@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LoginApiApp.RegisterPage"
+             Title="Register Page">
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="30" VerticalOptions="Center">
+            <Label  Text="Create your account " FontAttributes="Bold" HorizontalTextAlignment="Center"  FontSize="Body"/>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="By clicking “Sign up”, you agree to our " />
+                        <Span Text=" terms of service"
+                              TextColor="Blue"
+                              TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapCommand}" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                        <Span Text=" and acknowledge you have read our " />
+                        <Span Text=" privacy policy."
+                              TextColor="Blue"
+                              TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapCommand}"/>
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+            </Label.FormattedText>
+            </Label>
+                        <Image Source="dotnet_bot.png"/>
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="user.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
+                <Entry x:Name="usernameEntry" Grid.Column="1" Placeholder="Username" FontSize="Medium"/>
+            </Grid>
+            <!-- Password entry with icon -->
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="password.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
+                <Entry x:Name="passwordEntry" Grid.Column="1" Placeholder="Password" IsPassword="True" FontSize="Medium"/>
+            </Grid>
+            <Button x:Name="btnRegister"   
+                    Text="SignUp"
+                    Clicked="btnRegister_Clicked" 
+                    FontAttributes="Bold"
+                    CornerRadius="24"
+                    BackgroundColor="BlueViolet"
+                    TextColor="White"/>
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentPage>

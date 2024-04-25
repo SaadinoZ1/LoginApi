@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="LoginApiApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LoginApiApp"
+    xmlns:views="clr-namespace:LoginApiApp.Views"
+    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutBackgroundColor="White"  
+    Shell.ForegroundColor="Black"
+    Shell.BackgroundColor="white"
+    Shell.TabBarIsVisible="False">
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FlyoutItemLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style  TargetType="Label" >
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+        <ShellContent
+            Title="LoginPage"  FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+            ContentTemplate="{DataTemplate local:LoginPage}"
+            Route="LoginPage" />
+
+    <FlyoutItem   Route="HomePage"  FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+             Title="Home" Icon="accueil.png"
+            ContentTemplate="{DataTemplate views:HomePage}"/>
+        <ShellContent
+            Title="Trajet" Icon="trajet_1.svg"
+            ContentTemplate="{DataTemplate views:Trajet}"/>
+      
+        <ShellContent
+            Title="Vehicule" Icon="vehicule.jpg"
+            ContentTemplate="{DataTemplate views:Vehicule}"/>
+      
+    </FlyoutItem>
+    <Shell.FlyoutFooter>
+        <StackLayout  Padding="20">
+            <Button Text="Sign Out" Command="{Binding SignOutCommand}"  />
+        </StackLayout>
+    </Shell.FlyoutFooter>
+</Shell>

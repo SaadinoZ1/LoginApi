@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:LoginApiApp.Views"
+             x:Class="LoginApiApp.Views.Trajet"
+             Title="Trajet">
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="10">
+            <Label Text=" Welcome ! " FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="Body"/>
+            <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10">
+                <Frame BackgroundColor="White" Padding="10" CornerRadius="10">
+                    <StackLayout>
+                        <Image Source="trajet_1.svg" Aspect="AspectFit" HeightRequest="30"/>
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Text=" Trajets" 
+                                Clicked="OnTrajetClicked"
+                                BackgroundColor="BlueViolet"
+                                TextColor="White"    
+                                FontAttributes="Bold"
+                                CornerRadius="22"/>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+            <Grid x:Name="TrajetGrid" Padding="10" RowDefinitions="Auto" ColumnDefinitions="*,*,*,*,*,*" ColumnSpacing="10">
+                <Label Grid.Column="0"
+                       Text="Trajet ID" FontAttributes="Bold" IsVisible="False"/>
+                <Label Grid.Column="1"
+                       Text="Date" FontAttributes="Bold" IsVisible="False"/>
+                <Label Grid.Column="2"
+                       Text="Kilometrage" FontAttributes="Bold" IsVisible="False"/>
+                <Label Grid.Column="3"
+                       Text="Duree" FontAttributes="Bold" IsVisible="False"/>
+                <Label Grid.Column="4"
+                       Text=" Gains" FontAttributes="Bold" IsVisible="False"/>
+                <Label Grid.Column="5"
+                       Text=" Vehicule ID " FontAttributes="Bold" IsVisible="False"/>
+            </Grid>
+
+            <Button x:Name="btnEditTrajet"
+                    Text="EditTrajet" 
+                    Clicked="btnEditTrajet_Clicked"
+                    FontAttributes="Bold"
+                    CornerRadius="24"
+                    BackgroundColor="Green"
+                    TextColor="White"/>
+            <Button x:Name="btnAddTrajet"
+                    Text="AddTrajet" 
+                    Clicked="btnAddTrajet_Clicked"
+                    FontAttributes="Bold"
+                    CornerRadius="24"
+                    BackgroundColor="Blue"
+                    TextColor="White"/>
+            <Button x:Name="DeleteTrajetButton"
+                    Text="Delete Trajet" 
+                    Clicked="DeleteTrajetButton_Clicked"
+                    FontAttributes="Bold"
+                    CornerRadius="24"
+                    BackgroundColor="Red"
+                    TextColor="White"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

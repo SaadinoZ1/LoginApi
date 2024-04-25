@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:LoginApiApp.Views"
+             x:Class="LoginApiApp.Views.AddVehicule"
+             Title="AddVehicule">
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="10">
+            <Entry x:Name="modèleEntry" Placeholder="Modèle" Keyboard="Text"/>
+            <Entry x:Name="plaqueImmatriculationEntry" Placeholder="PlaqueImmatriculation" Keyboard="Text"/>
+
+            <Button Text="Add Vehicule"
+                 Clicked="OnAddVehiculeClicked"
+                 FontAttributes="Bold"
+                 CornerRadius="24"
+                 BackgroundColor="Blue"
+                 TextColor="White"/>
+            <Button x:Name="btnCancel"
+                 Text="Cancel" 
+                 Clicked="btnCancel_Clicked"
+                 FontAttributes="Bold"
+                 CornerRadius="24"
+                 BackgroundColor="Red"
+                 TextColor="White"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
