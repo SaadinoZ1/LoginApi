@@ -7,9 +7,11 @@ C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\LoginApi.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\LoginApi.pdb
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Humanizer.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Mapster.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Mapster.Core.dll
+C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApi\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
@@ -131,6 +133,7 @@ C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\LoginApi.Assembly
 C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\LoginApi.csproj.CoreCompileInputs.cache
 C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\LoginApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\LoginApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\LoginApi.sourcelink.json
 C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Admin\source\repos\LoginApi\LoginApi\obj\Debug\net8.0\staticwebassets\msbuild.LoginApi.Microsoft.AspNetCore.StaticWebAssets.props
