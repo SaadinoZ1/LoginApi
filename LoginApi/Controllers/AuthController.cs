@@ -207,7 +207,7 @@ namespace LoginApi.Controllers
     {
         new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
         new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-        new Claim(ClaimTypes.Role, userRoles.RoleName)
+        new Claim(ClaimTypes.Role, "Manager")
     };
 
             // Key for signing the JWT token, retrieved from configuration.
