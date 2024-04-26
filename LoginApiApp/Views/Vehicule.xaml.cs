@@ -17,7 +17,7 @@ public partial class Vehicule : ContentPage
     }
     private async Task LoadDataAsync()
     {
-        var url = "http://192.168.4.219:5178/api/Vehicule";
+        var url = "http://192.168.4.222:5178/api/Vehicule";
         try
         {
             var response = await _httpClient.GetAsync(url);

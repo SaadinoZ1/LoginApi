@@ -3,39 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:LoginApiApp.Views"
              x:Class="LoginApiApp.Views.HomePage"
-             Title="HomePage">
+             Title="Home">
 
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="10">
-            <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10">
-                <Frame BackgroundColor="White" Padding="10" CornerRadius="20">
-                    <StackLayout>
-                        <Image Source="trajet.jpg" Aspect="AspectFit" HeightRequest="200"/>
-                        <Button Grid.Row="1"
-                                Grid.Column="0"
-                                Text=" List Of Trajets" 
-                                Clicked="OnGetTrajetClicked"
-                                BackgroundColor="BlueViolet"
-                                FontAttributes="Bold"
-                                CornerRadius="22"/>
-                    </StackLayout>
-                </Frame>
-            </StackLayout>
-            <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10">
-                <Frame BackgroundColor="White" Padding="10" CornerRadius="20">
-                    <StackLayout>
-                        <Image Source="bus.jpg" Aspect="AspectFit" HeightRequest="200"/>
-                        <Button Grid.Row="1"
-                                Grid.Column="0"
-                                Text=" List Of Vehicules" 
-                                Clicked="OnGetVehiculeClicked"
-                                BackgroundColor="BlueViolet"
-                                FontAttributes="Bold"
-                                CornerRadius="22"/>
-                    </StackLayout>
-                </Frame>
-            </StackLayout>
-        </VerticalStackLayout>
+            <CarouselView ItemsSource="{Binding Frames}" BackgroundColor="White" >
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
 
+                        <Frame BackgroundColor="#311B45" Padding="10" CornerRadius="50" HasShadow="True" >
+                            <Frame.Shadow>
+                                <Shadow  Opacity="1.8" Radius="10" Offset="0,0"/>
+                            </Frame.Shadow>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapCommand}" NumberOfTapsRequired="1"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout>
+                                <Image Source= "{Binding Image}" Aspect="AspectFit" HeightRequest="100"/>
+                                <Button 
+                                Text=" {Binding Text }" 
+                                BackgroundColor="#311B45"
+                                FontAttributes="Bold"
+                                CornerRadius="22"
+                                    Command="{Binding TapCommand}"/>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

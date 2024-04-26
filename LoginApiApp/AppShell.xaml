@@ -27,10 +27,10 @@
 
     <FlyoutItem   Route="HomePage"  FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
-             Title="Home" Icon="accueil.png"
+             Title="Home" Icon="home.png"
             ContentTemplate="{DataTemplate views:HomePage}"/>
         <ShellContent
-            Title="Trajet" Icon="trajet_1.svg"
+            Title="Trajet" Icon="trajet.jpg"
             ContentTemplate="{DataTemplate views:Trajet}"/>
       
         <ShellContent

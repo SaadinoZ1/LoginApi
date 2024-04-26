@@ -13,5 +13,6 @@ namespace LoginApiApp.Models
         public string? PlaqueImmatriculation { get; set; }
         public ICollection<Trajet>? Trajets { get; set; }
 
+
     }
 }

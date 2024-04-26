@@ -17,5 +17,6 @@ namespace LoginApiApp.Models
         public string? LastIssuedJwtToken { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
 
+
     }
 }
