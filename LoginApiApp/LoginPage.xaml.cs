@@ -35,6 +35,12 @@ public partial class LoginPage : ContentPage
            var  UserDto  = await _apiService.LoginAsync(userName, password);
             if (UserDto != null)
             {
+                Preferences.Set("UserName", userName);
+                if(Application.Current.MainPage is AppShell shell)
+                {
+                    shell.UserName = userName;
+                }
+
                 await Shell.Current.GoToAsync("//HomePage");
             }
             else
