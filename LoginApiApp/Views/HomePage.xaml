@@ -7,10 +7,9 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="10">
-            <CarouselView ItemsSource="{Binding Frames}" BackgroundColor="White" >
+            <CarouselView x:Name="MyCarouselView" ItemsSource="{Binding Frames}" >
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
-
                         <Frame BackgroundColor="#311B45" Padding="10" CornerRadius="50" HasShadow="True" >
                             <Frame.Shadow>
                                 <Shadow  Opacity="1.8" Radius="10" Offset="0,0"/>
@@ -31,6 +30,16 @@
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
+            <IndicatorView IndicatorColor="LightGray"
+                           SelectedIndicatorColor="DarkGray"
+                           Count="{Binding Frames.Count}"
+                           IndicatorSize="10"
+                           IndicatorsShape="Circle"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           Margin="0,10,0,0"
+                           Position="{Binding Path=Position, Source={x:Reference MyCarouselView}}" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

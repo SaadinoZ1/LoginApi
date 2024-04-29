@@ -165,23 +165,23 @@ public final class R {
 		public static final int notification_template_part_time = 0x7f0b006a;
 	}
 	public static final class string {
-		public static final int call_notification_answer_action = 0x7f0f0023;
-		public static final int call_notification_answer_video_action = 0x7f0f0024;
-		public static final int call_notification_decline_action = 0x7f0f0025;
-		public static final int call_notification_hang_up_action = 0x7f0f0026;
-		public static final int call_notification_incoming_text = 0x7f0f0027;
-		public static final int call_notification_ongoing_text = 0x7f0f0028;
-		public static final int call_notification_screening_text = 0x7f0f0029;
-		public static final int status_bar_notification_info_overflow = 0x7f0f00ad;
+		public static final int call_notification_answer_action = 0x7f0e0023;
+		public static final int call_notification_answer_video_action = 0x7f0e0024;
+		public static final int call_notification_decline_action = 0x7f0e0025;
+		public static final int call_notification_hang_up_action = 0x7f0e0026;
+		public static final int call_notification_incoming_text = 0x7f0e0027;
+		public static final int call_notification_ongoing_text = 0x7f0e0028;
+		public static final int call_notification_screening_text = 0x7f0e0029;
+		public static final int status_bar_notification_info_overflow = 0x7f0e00ad;
 	}
 	public static final class style {
-		public static final int TextAppearance_Compat_Notification = 0x7f1001c6;
-		public static final int TextAppearance_Compat_Notification_Info = 0x7f1001c7;
-		public static final int TextAppearance_Compat_Notification_Line2 = 0x7f1001c8;
-		public static final int TextAppearance_Compat_Notification_Time = 0x7f1001c9;
-		public static final int TextAppearance_Compat_Notification_Title = 0x7f1001ca;
-		public static final int Widget_Compat_NotificationActionContainer = 0x7f10032c;
-		public static final int Widget_Compat_NotificationActionText = 0x7f10032d;
+		public static final int TextAppearance_Compat_Notification = 0x7f0f01c6;
+		public static final int TextAppearance_Compat_Notification_Info = 0x7f0f01c7;
+		public static final int TextAppearance_Compat_Notification_Line2 = 0x7f0f01c8;
+		public static final int TextAppearance_Compat_Notification_Time = 0x7f0f01c9;
+		public static final int TextAppearance_Compat_Notification_Title = 0x7f0f01ca;
+		public static final int Widget_Compat_NotificationActionContainer = 0x7f0f032c;
+		public static final int Widget_Compat_NotificationActionText = 0x7f0f032d;
 	}
 	public static final class styleable {
 		public static final int[] Capability = new int[] { 0x7f03039c, 0x7f0303d0 };

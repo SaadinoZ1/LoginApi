@@ -18,7 +18,7 @@ public partial class Trajet : ContentPage
     }
     private async Task LoadDataAsync()
     {
-        var url = "http://192.168.4.222:5178/api/Trajet";
+        var url = "http://192.168.4.230:5178/api/Trajet";
         try
         {
             var response = await _httpClient.GetAsync(url);
