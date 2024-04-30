@@ -64,6 +64,7 @@
 	  <None Remove="Resources\Images\accueil.png" />
 	  <None Remove="Resources\Images\bus.jpg" />
 	  <None Remove="Resources\Images\dotnet.login.jpeg" />
+	  <None Remove="Resources\Images\email.jpg" />
 	  <None Remove="Resources\Images\Home.png" />
 	  <None Remove="Resources\Images\home_icon.png" />
 	  <None Remove="Resources\Images\Password.png" />

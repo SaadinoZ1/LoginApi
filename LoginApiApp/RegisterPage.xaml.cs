@@ -15,14 +15,15 @@ public partial class RegisterPage : ContentPage
     {
         var username = usernameEntry.Text;
         var password = passwordEntry.Text;
+        var email = emailEntry.Text;
 
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(email))
         {
-            await DisplayAlert("Error", "Please enter a username and password.", "OK");
+            await DisplayAlert("Error", "Please enter a username, email and password.", "OK");
             return;
         }
 
-        var success = await _apiService.RegisterAsync(username, password);
+        var success = await _apiService.RegisterAsync(username, password,email);
         if (success)
         {
             await DisplayAlert("Success", "Registration successful", "OK");

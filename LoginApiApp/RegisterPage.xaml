@@ -37,7 +37,14 @@
                 <Image Source="user.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
                 <Entry x:Name="usernameEntry" Grid.Column="1" Placeholder="Username" FontSize="Medium"/>
             </Grid>
-            <!-- Password entry with icon -->
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="email.jpg" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
+                <Entry x:Name="emailEntry" Grid.Column="1" Placeholder="Email"  FontSize="Medium"/>
+            </Grid>
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -46,6 +53,7 @@
                 <Image Source="password.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
                 <Entry x:Name="passwordEntry" Grid.Column="1" Placeholder="Password" IsPassword="True" FontSize="Medium"/>
             </Grid>
+         
             <Button x:Name="btnRegister"   
                     Text="SignUp"
                     Clicked="btnRegister_Clicked" 

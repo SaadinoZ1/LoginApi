@@ -15,12 +15,13 @@ namespace LoginApiApp.Services
             _httpClient = httpClientFactory.CreateClient("ApiServiceClient");
         }
 
-        public async Task<bool> RegisterAsync(string username, string password)
+        public async Task<bool> RegisterAsync(string username, string password, string email)
         {
             var registerDto = new UserDto
             {
                 UserName = username,
-                Password = password
+                Password = password,
+                Email = email
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(registerDto), Encoding.UTF8, "application/json");
