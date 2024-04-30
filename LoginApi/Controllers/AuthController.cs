@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -37,26 +38,40 @@ namespace LoginApi.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
+            // Vérifier si le nom d'utilisateur existe déjà
             if (_context.User.Any(u => u.UserName == request.UserName))
             {
                 return BadRequest("User already exists.");
             }
 
+            // Vérifier si l'email existe déjà
+            if (_context.User.Any(u => u.Email == request.Email))
+            {
+                return BadRequest("Email already exists.");
+            }
+
+            // Valider le format de l'email
+            if (string.IsNullOrWhiteSpace(request.Email) || !new EmailAddressAttribute().IsValid(request.Email))
+            {
+                return BadRequest("Invalid email.");
+            }
+
+            // Créer le nouvel utilisateur si toutes les validations sont réussies
             var user = new User
             {
                 UserName = request.UserName,
+                Email = request.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
             };
 
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-
             return Ok(new
             {
                 UserId = user.UserId,
-                UserName = request.UserName,
-
+                UserName = user.UserName,
+                Email = user.Email
             });
         }
 
@@ -195,7 +210,7 @@ namespace LoginApi.Controllers
         }
         private string GenerateJwtToken(User user)
         {
-            var userRoles = _context.UserRoles.Include(ur => ur.Role).FirstOrDefault(ur => ur.UserId == user.UserId)?.Role;
+            var userRoles = _context.UserRoles.Include(ur => ur.Role).Where(ur => ur.UserId == user.UserId).Select(ur => ur.Role.RoleName).ToList();
             // Check if a role was assigned, and use the role name.
             if (userRoles == null)
             {
@@ -207,8 +222,11 @@ namespace LoginApi.Controllers
     {
         new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
         new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-        new Claim(ClaimTypes.Role, "Manager")
     };
+            foreach (var role in userRoles) 
+            {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             // Key for signing the JWT token, retrieved from configuration.
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Token"]));
@@ -238,14 +256,30 @@ namespace LoginApi.Controllers
             }
 
             user.UserName = updateUserDto.UserName ?? user.UserName;
-            // Update other fields as necessary
+
+            if (!string.IsNullOrEmpty(updateUserDto.Password))
+            {
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updateUserDto.Password);
+            }
+
+            if (!string.IsNullOrWhiteSpace(updateUserDto.Email))
+            {
+                // Validation de l'email
+                if (new EmailAddressAttribute().IsValid(updateUserDto.Email))
+                {
+                    user.Email = updateUserDto.Email;
+                }
+                else
+                {
+                    return BadRequest("Invalid email address.");
+                }
+            }
 
             _context.User.Update(user);
             await _context.SaveChangesAsync();
 
-            return Ok(new { UserId = user.UserId, UserName = user.UserName });
+            return Ok(new { UserId = user.UserId, UserName = user.UserName, Email = user.Email });
         }
-    }
-
 
 }
+    }
