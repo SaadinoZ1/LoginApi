@@ -1,6 +1,7 @@
 ﻿using LoginApiApp.Dtos;
 using LoginApiApp.Models;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -15,13 +16,23 @@ namespace LoginApiApp.Services
             _httpClient = httpClientFactory.CreateClient("ApiServiceClient");
         }
 
-        public async Task<bool> RegisterAsync(string username, string password, string email)
+        private async Task AttachAuthorizationHeader()
+        {
+            var token = await SecureStorage.GetAsync("jwt_token");
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+        }
+
+        public async Task<bool> RegisterAsync(string username, string password, string email, string role)
         {
             var registerDto = new UserDto
             {
                 UserName = username,
                 Password = password,
-                Email = email
+                Email = email,
+                Role = role,
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(registerDto), Encoding.UTF8, "application/json");
@@ -55,7 +66,7 @@ namespace LoginApiApp.Services
             return null;
         }
 
-        public async Task<string?> RefreshTokenAsync(string refreshToken)
+        public async Task<bool> RefreshTokenAsync(string refreshToken)
         {
             var refreshDto = new { Token = refreshToken };
             var content = new StringContent(JsonConvert.SerializeObject(refreshDto), Encoding.UTF8, "application/json");
@@ -64,11 +75,21 @@ namespace LoginApiApp.Services
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                var newToken = JsonConvert.DeserializeObject<dynamic>(json)?.token;
-                return newToken;
+                var newTokenDetails = JsonConvert.DeserializeObject<dynamic>(json);
+                var newToken = (string)newTokenDetails?.token;
+                var newRefreshToken = (string)newTokenDetails?.refreshToken;
+                if(! string.IsNullOrWhiteSpace(newToken) && ! string.IsNullOrWhiteSpace(newRefreshToken))
+                {
+                    await SecureStorage.SetAsync("jwt_token", newToken);
+                    await SecureStorage.SetAsync("refreshToken",newRefreshToken);
+
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",newToken);
+                    return true;
+
+                }
             }
 
-            return null;
+            return false;
         }
 
 
@@ -79,13 +100,23 @@ namespace LoginApiApp.Services
 
             if (response.IsSuccessStatusCode)
             {
+                await AttachAuthorizationHeader();
                 var json = await response.Content.ReadAsStringAsync();
-                return System.Text.Json.JsonSerializer.Deserialize<List<Trajet>>(json);
+                return JsonConvert.DeserializeObject<List<Trajet>>(json);
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                Console.WriteLine("Unauthorized : Token may be expired or invalid.");
-                await Shell.Current.GoToAsync(nameof(LoginPage));
+                var refresheToken = await SecureStorage.GetAsync("refreshToken");
+            if (refresheToken != null)
+                {
+                    var isRefreshed = await RefreshTokenAsync(refresheToken);
+                    if (isRefreshed)
+                    {
+                        return await GetTrajetsAsync();
+                    }
+                    }
+               
+                    await Shell.Current.GoToAsync(nameof(LoginPage));
             }
             else
             {

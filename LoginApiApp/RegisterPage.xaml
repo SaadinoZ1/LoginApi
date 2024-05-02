@@ -50,6 +50,14 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Image Source="role.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
+                <Entry x:Name="roleEntry" Grid.Column="1" Placeholder="Role"  FontSize="Medium"/>
+            </Grid>
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <Image Source="password.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
                 <Entry x:Name="passwordEntry" Grid.Column="1" Placeholder="Password" IsPassword="True" FontSize="Medium"/>
             </Grid>

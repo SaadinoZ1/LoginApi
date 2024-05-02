@@ -17,7 +17,7 @@ namespace LoginApiApp
                 if (_userName != value)
                 {
                     _userName = value;
-                    WelcomeMessage = $"Bienvenu, {_userName}";
+                    WelcomeMessage = $"Bienvenue, {_userName}";
                     OnPropertyChanged(nameof(UserName));
                     OnPropertyChanged(nameof(WelcomeMessage));
                 }

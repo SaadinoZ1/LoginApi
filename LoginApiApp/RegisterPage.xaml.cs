@@ -16,6 +16,7 @@ public partial class RegisterPage : ContentPage
         var username = usernameEntry.Text;
         var password = passwordEntry.Text;
         var email = emailEntry.Text;
+        var role = roleEntry.Text;
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(email))
         {
@@ -23,7 +24,7 @@ public partial class RegisterPage : ContentPage
             return;
         }
 
-        var success = await _apiService.RegisterAsync(username, password,email);
+        var success = await _apiService.RegisterAsync(username, password,email,role);
         if (success)
         {
             await DisplayAlert("Success", "Registration successful", "OK");

@@ -68,6 +68,7 @@
 	  <None Remove="Resources\Images\Home.png" />
 	  <None Remove="Resources\Images\home_icon.png" />
 	  <None Remove="Resources\Images\Password.png" />
+	  <None Remove="Resources\Images\role.png" />
 	  <None Remove="Resources\Images\signout_icon.png" />
 	  <None Remove="Resources\Images\trajet.jpg" />
 	  <None Remove="Resources\Images\trajet_1.svg" />

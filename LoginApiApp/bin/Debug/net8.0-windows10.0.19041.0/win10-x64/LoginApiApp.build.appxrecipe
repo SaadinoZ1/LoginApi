@@ -94,6 +94,9 @@
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\password.scale-100.png">
       <PackagePath>password.scale-100.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\role.scale-100.png">
+      <PackagePath>role.scale-100.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\signout_icon.scale-100.png">
       <PackagePath>signout_icon.scale-100.png</PackagePath>
     </AppxPackagedFile>

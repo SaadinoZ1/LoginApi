@@ -16,8 +16,7 @@ namespace LoginApiApp.Models
         public DateTime TokenCreated { get; set; }
         public DateTime TokenExpires { get; set; }
         public string? LastIssuedJwtToken { get; set; }
-        public ICollection<UserRole> UserRoles { get; set; }
-
+        public ICollection<UserRole>? UserRoles { get; set; }
 
     }
 }
