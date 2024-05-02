@@ -43,7 +43,7 @@ namespace LoginApi.Migrations
 
                     b.HasIndex("TrajetId");
 
-                    b.ToTable("Rapports");
+                    b.ToTable("Rapports", (string)null);
                 });
 
             modelBuilder.Entity("LoginApi.Models.Role", b =>
@@ -59,7 +59,7 @@ namespace LoginApi.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("LoginApi.Models.Trajet", b =>
@@ -89,7 +89,7 @@ namespace LoginApi.Migrations
 
                     b.HasIndex("VehiculeId");
 
-                    b.ToTable("Trajets");
+                    b.ToTable("Trajets", (string)null);
                 });
 
             modelBuilder.Entity("LoginApi.Models.User", b =>
@@ -123,7 +123,7 @@ namespace LoginApi.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("LoginApi.Models.UserRole", b =>
@@ -138,7 +138,7 @@ namespace LoginApi.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("LoginApi.Models.Vehicule", b =>
@@ -157,7 +157,7 @@ namespace LoginApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehicules");
+                    b.ToTable("Vehicules", (string)null);
                 });
 
             modelBuilder.Entity("LoginApi.Models.Rapport", b =>

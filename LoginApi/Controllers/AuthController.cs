@@ -38,25 +38,21 @@ namespace LoginApi.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
-            // Vérifier si le nom d'utilisateur existe déjà
             if (_context.User.Any(u => u.UserName == request.UserName))
             {
                 return BadRequest("User already exists.");
             }
 
-            // Vérifier si l'email existe déjà
             if (_context.User.Any(u => u.Email == request.Email))
             {
                 return BadRequest("Email already exists.");
             }
 
-            // Valider le format de l'email
             if (string.IsNullOrWhiteSpace(request.Email) || !new EmailAddressAttribute().IsValid(request.Email))
             {
                 return BadRequest("Invalid email.");
             }
 
-            // Créer le nouvel utilisateur si toutes les validations sont réussies
             var user = new User
             {
                 UserName = request.UserName,
@@ -67,14 +63,21 @@ namespace LoginApi.Controllers
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(new
+            // Gérer l'affectation du rôle
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == request.Role);
+            if (role == null)
             {
-                UserId = user.UserId,
-                UserName = user.UserName,
-                Email = user.Email
-            });
-        }
+                role = new Role { RoleName = request.Role };
+                _context.Roles.Add(role);
+                await _context.SaveChangesAsync();
+            }
 
+            var userRole = new UserRole { UserId = user.UserId, RoleId = role.RoleId };
+            _context.UserRoles.Add(userRole);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { UserId = user.UserId, UserName = user.UserName, Email = user.Email, Role = role.RoleName });
+        }
 
 
 
@@ -95,38 +98,6 @@ namespace LoginApi.Controllers
                 _context.Roles.Add(role);
                 _context.SaveChanges();
             }
-        }
-
-        [HttpPost("assign-role")]
-        public async Task<IActionResult> AssignRoleToUser(int userId, string roleName)
-        {
-            // Vérifier si l'utilisateur existe
-            var user = await _context.User.FindAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"User with ID {userId} not found.");
-            }
-
-            // Vérifier si le rôle existe
-            var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
-            if (role == null)
-            {
-                return NotFound($"Role '{roleName}' not found.");
-            }
-
-            // Vérifier si l'utilisateur a déjà ce rôle
-            var userRoleExists = await _context.UserRoles.AnyAsync(ur => ur.UserId == userId && ur.RoleId == role.RoleId);
-            if (userRoleExists)
-            {
-                return BadRequest($"User already has the '{roleName}' role.");
-            }
-
-            // Attribuer le rôle à l'utilisateur
-            var userRole = new UserRole { UserId = userId, RoleId = role.RoleId };
-            _context.UserRoles.Add(userRole);
-            await _context.SaveChangesAsync();
-
-            return Ok($"Role '{roleName}' assigned to user ID {userId} successfully.");
         }
 
         [HttpPost("login")]
@@ -163,25 +134,22 @@ namespace LoginApi.Controllers
 
 
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<string>> RefreshToken( )
+        public async Task<IActionResult> RefreshToken(string refreshToken)
         {
-            var refreshToken = Request.Cookies["refreshToken"];
-            var user = await _context.User.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.TokenExpires > DateTime.UtcNow);
-
-            if (user == null )
+            var user = await _context.User.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.TokenExpires > DateTime.UtcNow);
+            if (user == null)
             {
                 return Unauthorized("Invalid or expired refresh token");
             }
 
-
-            // Générer un nouveau JWT et un nouveau Refresh Token
-            var token = GenerateJwtToken(user);
+            // Générer un nouveau JWT
+            var newToken = GenerateJwtToken(user);
             var newRefreshToken = GenerateRefreshToken();
 
-            // Sauvegarder le nouveau Refresh Token avec l'utilisateur
+            // Sauvegarder le nouveau refresh token
             SetRefreshToken(newRefreshToken, user);
 
-            return Ok(new { token = token, refreshToken = newRefreshToken.Token });
+            return Ok(new { token = newToken, refreshToken = newRefreshToken.Token });
         }
 
         private void SetRefreshToken(RefreshToken newRefreshToken, User user)
@@ -210,28 +178,23 @@ namespace LoginApi.Controllers
         }
         private string GenerateJwtToken(User user)
         {
-            var userRoles = _context.UserRoles.Include(ur => ur.Role).Where(ur => ur.UserId == user.UserId).Select(ur => ur.Role.RoleName).ToList();
-            // Check if a role was assigned, and use the role name.
-            if (userRoles == null)
-            {
-                throw new Exception("No role assigned to the user.");
-            }
+            var userRoles = _context.UserRoles
+                .Where(ur => ur.UserId == user.UserId)
+                .Include(ur => ur.Role)
+                .Select(ur => ur.Role.RoleName)
+                .ToList();
 
-            // Create a list of claims for the user.
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-        new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.Email, user.Email)
     };
-            foreach (var role in userRoles) 
-            {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-            }
 
-            // Key for signing the JWT token, retrieved from configuration.
+            userRoles.ForEach(role => claims.Add(new Claim(ClaimTypes.Role, role)));
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:Token"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -239,17 +202,17 @@ namespace LoginApi.Controllers
                 Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = creds
             };
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
 
 
-
         [HttpPut("update/{userId}")]
         public async Task<IActionResult> UpdateUser(int userId, UserDto updateUserDto)
         {
-            var user = await _context.User.FindAsync(userId);
+            var user = await _context.User.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).FirstOrDefaultAsync(u => u.UserId == userId);
             if (user == null)
             {
                 return NotFound("User not found.");
@@ -274,11 +237,29 @@ namespace LoginApi.Controllers
                     return BadRequest("Invalid email address.");
                 }
             }
+            user.UserRoles ??= new List<UserRole>();
+            // Mise à jour du rôle de l'utilisateur
+            if (!string.IsNullOrWhiteSpace(updateUserDto.Role))
+            {
+                var newRole = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == updateUserDto.Role);
+                if (newRole == null)
+                {
+                    return BadRequest("Role does not exist.");
+                }
+
+                // Supprimer tous les rôles existants (facultatif si l'utilisateur ne peut avoir qu'un seul rôle)
+                _context.UserRoles.RemoveRange(user.UserRoles);
+
+                // Ajouter le nouveau rôle
+                user.UserRoles.Add(new UserRole { UserId = user.UserId, RoleId = newRole.RoleId });
+            }
+
 
             _context.User.Update(user);
             await _context.SaveChangesAsync();
 
-            return Ok(new { UserId = user.UserId, UserName = user.UserName, Email = user.Email });
+            return Ok(new { UserId = user.UserId, UserName = user.UserName, Email = user.Email, Roles = user.UserRoles.Select(ur => ur.Role.RoleName).ToList()
+            });
         }
 
 }
