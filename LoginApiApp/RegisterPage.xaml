@@ -45,14 +45,7 @@
                 <Image Source="email.jpg" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
                 <Entry x:Name="emailEntry" Grid.Column="1" Placeholder="Email"  FontSize="Medium"/>
             </Grid>
-            <Grid Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Image Source="role.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
-                <Entry x:Name="roleEntry" Grid.Column="1" Placeholder="Role"  FontSize="Medium"/>
-            </Grid>
+
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -61,7 +54,14 @@
                 <Image Source="password.png" HeightRequest="40" WidthRequest="40" VerticalOptions="Center" Margin="5"/>
                 <Entry x:Name="passwordEntry" Grid.Column="1" Placeholder="Password" IsPassword="True" FontSize="Medium"/>
             </Grid>
-         
+
+
+            <Label Text="Select Role:" FontAttributes="Bold" FontSize="Medium" />
+                <RadioButton GroupName="Roles" Content="Manager" CheckedChanged="OnRoleChecked" />
+                <RadioButton GroupName="Roles" Content="AgentExploitation" CheckedChanged="OnRoleChecked" />
+                <RadioButton GroupName="Roles" Content="AgentCommercial" CheckedChanged="OnRoleChecked" />
+
+            
             <Button x:Name="btnRegister"   
                     Text="SignUp"
                     Clicked="btnRegister_Clicked" 

@@ -25,18 +25,18 @@ C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\mauisp
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\mauifont.stamp
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\f\OpenSans-Regular.ttf
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\f\OpenSans-Semibold.ttf
-C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\accueil.png
-C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\user.png
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\home.png
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\password.png
-C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\trajet.jpg
-C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\bus.jpg
-C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\email.jpg
+C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\user.png
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\role.png
+C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\email.jpg
+C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\vehicule.jpg
+C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\trajet.jpg
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\signout_icon.png
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\trajet_icon.jpg
+C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\accueil.png
+C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\bus.jpg
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\dotnet.login.jpeg
-C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable\vehicule.jpg
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable-xxxhdpi\dotnet_bot.png
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable-xxhdpi\dotnet_bot.png
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\resizetizer\r\drawable-xhdpi\dotnet_bot.png
@@ -280,7 +280,6 @@ C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\androi
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.Numerics.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.Numerics.Vectors.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.ObjectModel.dll
-C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.Private.CoreLib.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.Private.DataContractSerialization.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.Private.Uri.dll
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.Private.Xml.dll
@@ -1044,3 +1043,4 @@ C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\stamp\
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-android\android\assets\System.Private.CoreLib.dll
