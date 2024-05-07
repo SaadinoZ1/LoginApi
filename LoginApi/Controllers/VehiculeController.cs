@@ -26,7 +26,7 @@ namespace LoginApi.Controllers
                 await _context.SaveChangesAsync();
                 return Ok(vehiculeDto);
             }
-        [HttpGet,Authorize(Roles = "Manager")]
+        [HttpGet]
             public async Task<ActionResult<List<VehiculeDto>>> GetAllVehicules()
             {
                 var vehicules = await _context.Vehicules.ToListAsync();

@@ -18,7 +18,7 @@ namespace LoginApi.Controllers
         public TrajetController(ApplicationDbContext context)
         { _context = context; }
 
-        [HttpPost, Authorize(Roles = "Manager")]
+        [HttpPost, Authorize(Roles = "Manager Exploitation")]
         public async Task<ActionResult<TrajetDto>> AddTrajet(TrajetDto trajetDto)
         {
             var trajet = trajetDto.Adapt<Trajet>();
@@ -64,7 +64,7 @@ namespace LoginApi.Controllers
 
             return Ok(updatedTrajetDto);
         }
-        [HttpDelete("{Id}"), Authorize(Roles = "Manager")]
+        [HttpDelete("{Id}"),Authorize(Roles = "Manager Exploitation")]
         public async Task<ActionResult> DeleteTrajet(int Id)
         {
             var dbTrajet = await _context.Trajets.FindAsync(Id);

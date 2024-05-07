@@ -99,6 +99,67 @@ namespace LoginApi.Controllers
                 _context.SaveChanges();
             }
         }
+        // Update User Role 
+        [HttpPost("update-role/{userId}")]
+        public async Task<IActionResult> UpdateUserRole(int userId, [FromBody] string newRoleName)
+        {
+            // Trouver l'utilisateur et inclure ses rôles
+            var user = await _context.User
+                                     .Include(u => u.UserRoles)
+                                     .ThenInclude(ur => ur.Role)
+                                     .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Trouver le rôle demandé
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == newRoleName);
+            if (role == null)
+            {
+                return BadRequest("Role not found.");
+            }
+
+            // Supprimer tous les rôles actuels (facultatif selon la logique métier)
+            _context.UserRoles.RemoveRange(user.UserRoles);
+
+            // Ajouter le nouveau rôle
+            user.UserRoles.Add(new UserRole { UserId = userId, RoleId = role.RoleId });
+
+            // Sauvegarder les modifications
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "User role updated successfully." });
+        }
+
+        // Update Role 
+
+        [HttpPut("update-role/{roleId}")]
+        public async Task<IActionResult> UpdateRole(int roleId, [FromBody] RoleDto roleDto)
+        {
+            if (string.IsNullOrWhiteSpace(roleDto.RoleName))
+            {
+                return BadRequest("Role name cannot be empty.");
+            }
+
+            var role = await _context.Roles.FindAsync(roleId);
+            if (role == null)
+            {
+                return NotFound($"Role with ID {roleId} not found.");
+            }
+
+            // Vérification si le nouveau nom de rôle existe déjà
+            if (_context.Roles.Any(r => r.RoleName == roleDto.RoleName && r.RoleId != roleId))
+            {
+                return BadRequest("A role with the same name already exists.");
+            }
+
+            role.RoleName = roleDto.RoleName;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Role updated successfully.", roleId = role.RoleId, roleName = role.RoleName });
+        }
 
         [HttpPost("login")]
         public ActionResult<UserDto> Login(UserDto request)
@@ -127,7 +188,7 @@ namespace LoginApi.Controllers
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken, user);
             user.LastIssuedJwtToken = token;
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
 
             return Ok(new { token, refreshToken = refreshToken.Token });
         }
@@ -145,11 +206,20 @@ namespace LoginApi.Controllers
             // Générer un nouveau JWT
             var newToken = GenerateJwtToken(user);
             var newRefreshToken = GenerateRefreshToken();
-
+            user.LastIssuedJwtToken = newToken;
             // Sauvegarder le nouveau refresh token
             SetRefreshToken(newRefreshToken, user);
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(new { token = newToken, refreshToken = newRefreshToken.Token });
 
-            return Ok(new { token = newToken, refreshToken = newRefreshToken.Token });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: Failed to update user tokens.");
+            }
+
         }
 
         private void SetRefreshToken(RefreshToken newRefreshToken, User user)
@@ -188,7 +258,7 @@ namespace LoginApi.Controllers
     {
         new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
         new Claim(ClaimTypes.Name, user.UserName),
-        new Claim(ClaimTypes.Email, user.Email)
+        new Claim(ClaimTypes.Email, user.Email),
     };
 
             userRoles.ForEach(role => claims.Add(new Claim(ClaimTypes.Role, role)));
