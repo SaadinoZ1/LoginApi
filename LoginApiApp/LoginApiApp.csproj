@@ -63,9 +63,13 @@
 	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
 	  <None Remove="Resources\Images\accueil.png" />
 	  <None Remove="Resources\Images\bus.jpg" />
+	  <None Remove="Resources\Images\bus1.png" />
 	  <None Remove="Resources\Images\dotnet.login.jpeg" />
 	  <None Remove="Resources\Images\email.jpg" />
+	  <None Remove="Resources\Images\email1.png" />
 	  <None Remove="Resources\Images\Home.png" />
+	  <None Remove="Resources\Images\home1.png" />
+	  <None Remove="Resources\Images\home2.png" />
 	  <None Remove="Resources\Images\home_icon.png" />
 	  <None Remove="Resources\Images\Password.png" />
 	  <None Remove="Resources\Images\role.png" />
@@ -73,7 +77,9 @@
 	  <None Remove="Resources\Images\trajet.jpg" />
 	  <None Remove="Resources\Images\trajet_1.svg" />
 	  <None Remove="Resources\Images\trajet_icon.jpg" />
+	  <None Remove="Resources\Images\trip.png" />
 	  <None Remove="Resources\Images\User.png" />
+	  <None Remove="Resources\Images\user1.png" />
 	  <None Remove="Resources\Images\vehicule.jpg" />
 	</ItemGroup>
 
@@ -83,6 +89,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="RestSharp" Version="110.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>

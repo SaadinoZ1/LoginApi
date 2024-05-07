@@ -12,7 +12,7 @@ public partial class RegisterPage : ContentPage
     {
         InitializeComponent();
         _apiService = apiService;
-        selectedRole = "Manager";
+        selectedRole = "Manager Exploitation";
     }
     private void OnRoleChecked(object sender, CheckedChangedEventArgs e)
     {
@@ -40,7 +40,7 @@ public partial class RegisterPage : ContentPage
         if (success)
         {
             await DisplayAlert("Success", "Registration successful", "OK");
-            // Optionally navigate to the login page
+            // Optionally navigate to the login page 
             await Shell.Current.GoToAsync("//LoginPage");
         }
         else

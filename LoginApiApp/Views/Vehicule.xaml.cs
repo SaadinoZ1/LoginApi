@@ -1,14 +1,16 @@
+using LoginApiApp.Services;
 using System.Text.Json;
 
 namespace LoginApiApp.Views;
 
 public partial class Vehicule : ContentPage
 {
-    private readonly HttpClient _httpClient = new HttpClient();
+    private readonly ApiService _apiService;
 
-    public Vehicule()
+    public Vehicule(ApiService apiService)
 	{
 		InitializeComponent();
+        _apiService = apiService;
 	}
     private async void OnLoadDataClicked(object sender, EventArgs e)
     {
@@ -17,45 +19,31 @@ public partial class Vehicule : ContentPage
     }
     private async Task LoadDataAsync()
     {
-        var url = "http://192.168.4.230:5178/api/Vehicule";
-        try
+        var vehiculesList = await _apiService.GetVehiculesAsync();
+        if (vehiculesList != null)
         {
-            var response = await _httpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                // Convert the JSON response to a list of objects
-                var vehiculesList = JsonSerializer.Deserialize<List<LoginApiApp.Models.Vehicule>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                if (vehiculesList != null)
+                VehiculeGrid.Children.Clear();
+                VehiculeGrid.RowDefinitions.Clear();
+                VehiculeGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+                AddHeaderToGrid("Vehicule ID", 0);
+                AddHeaderToGrid("Modèle", 1);
+                AddHeaderToGrid("PlaqueImmatriculation", 2);
+
+                foreach (var vehicule in vehiculesList)
                 {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        VehiculeGrid.Children.Clear();
-                        VehiculeGrid.RowDefinitions.Clear();
-                        VehiculeGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                        AddHeaderToGrid("Vehicule ID", 0);
-                        AddHeaderToGrid("Modèle", 1);
-                        AddHeaderToGrid("PlaqueImmatriculation", 2);
-
-
-                        // Add rows for the data
-                        foreach (var vehicule in vehiculesList)
-                        {
-                            AddRowToGrid(vehicule);
-                        }
-                    });
+                    AddRowToGrid(vehicule);
                 }
-            }
-            else
-            {
-                Console.WriteLine($"Error fetching data: {response.ReasonPhrase}");
-            }
+            });
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine($"Exception fetching data: {ex.Message}");
+            await DisplayAlert("Error", "Failed to fetch vehicles.", "OK");
         }
     }
+
     private void AddHeaderToGrid(string headerText, int columnIndex)
     {
         var headerLabel = new Label { Text = headerText, FontAttributes = FontAttributes.Bold };

@@ -17,14 +17,14 @@ public partial class HomePage : ContentPage
         {
             new FrameItem
             {
-                Image = "trajet.jpg",
+                Image = "trip.png",
                 Text = "Trajets",
                 TapCommand = new Command(async () => await  OnGetTrajetClicked())
 
             },
              new FrameItem
             {
-                Image = "bus.jpg",
+                Image = "bus1.png",
                 Text = "Véhicules",
                 TapCommand = new Command(async () =>await OnGetVehiculeClicked())
 

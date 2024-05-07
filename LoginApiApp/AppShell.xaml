@@ -15,7 +15,7 @@
             <Style x:Key="FlyoutItemLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
-            <Style  TargetType="Label" >
+            <Style  TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
         </ResourceDictionary>
@@ -28,14 +28,14 @@
 
     <FlyoutItem   Route="HomePage"  FlyoutDisplayOptions="AsMultipleItems">
         <ShellContent
-             Title="Home" Icon="home.png"
+             Title="Home" Icon="home1.png"
             ContentTemplate="{DataTemplate views:HomePage}"/>
         <ShellContent
-            Title="Trajet" Icon="trajet.jpg"
+            Title="Trajet" Icon="trip.png"
             ContentTemplate="{DataTemplate views:Trajet}"/>
       
         <ShellContent
-            Title="Vehicule" Icon="vehicule.jpg"
+            Title="Vehicule" Icon="bus1.png"
             ContentTemplate="{DataTemplate views:Vehicule}"/>
       
     </FlyoutItem>

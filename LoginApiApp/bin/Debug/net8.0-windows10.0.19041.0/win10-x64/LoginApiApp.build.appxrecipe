@@ -67,6 +67,9 @@
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\bus.scale-100.jpg">
       <PackagePath>bus.scale-100.jpg</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\bus1.scale-100.png">
+      <PackagePath>bus1.scale-100.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet.login.scale-100.jpeg">
       <PackagePath>dotnet.login.scale-100.jpeg</PackagePath>
     </AppxPackagedFile>
@@ -88,8 +91,17 @@
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\email.scale-100.jpg">
       <PackagePath>email.scale-100.jpg</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\email1.scale-100.png">
+      <PackagePath>email1.scale-100.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\home.scale-100.png">
       <PackagePath>home.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\home1.scale-100.png">
+      <PackagePath>home1.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\home2.scale-100.png">
+      <PackagePath>home2.scale-100.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\password.scale-100.png">
       <PackagePath>password.scale-100.png</PackagePath>
@@ -121,8 +133,14 @@
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\trajet_icon.scale-100.jpg">
       <PackagePath>trajet_icon.scale-100.jpg</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\trip.scale-100.png">
+      <PackagePath>trip.scale-100.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\user.scale-100.png">
       <PackagePath>user.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\user1.scale-100.png">
+      <PackagePath>user1.scale-100.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\source\repos\LoginApi\LoginApiApp\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\vehicule.scale-100.jpg">
       <PackagePath>vehicule.scale-100.jpg</PackagePath>
@@ -249,6 +267,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\.nuget\packages\newtonsoft.json\13.0.3\lib\net6.0\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Admin\.nuget\packages\restsharp\110.2.0\lib\net7.0\RestSharp.dll">
+      <PackagePath>RestSharp.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Admin\.nuget\packages\microsoft.maui.controls.core\8.0.7\lib\net8.0-windows10.0.19041\ar\Microsoft.Maui.Controls.resources.dll">
       <PackagePath>ar\Microsoft.Maui.Controls.resources.dll</PackagePath>

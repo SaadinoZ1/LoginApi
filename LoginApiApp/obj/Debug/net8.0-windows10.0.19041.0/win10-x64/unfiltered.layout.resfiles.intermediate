@@ -2,6 +2,7 @@ OpenSans-Regular.ttf
 OpenSans-Semibold.ttf
 accueil.scale-100.png
 bus.scale-100.jpg
+bus1.scale-100.png
 dotnet.login.scale-100.jpeg
 dotnet_bot.scale-100.png
 dotnet_bot.scale-125.png
@@ -9,7 +10,10 @@ dotnet_bot.scale-150.png
 dotnet_bot.scale-200.png
 dotnet_bot.scale-400.png
 email.scale-100.jpg
+email1.scale-100.png
 home.scale-100.png
+home1.scale-100.png
+home2.scale-100.png
 password.scale-100.png
 role.scale-100.png
 signout_icon.scale-100.png
@@ -20,7 +24,9 @@ trajet_1.scale-150.png
 trajet_1.scale-200.png
 trajet_1.scale-400.png
 trajet_icon.scale-100.jpg
+trip.scale-100.png
 user.scale-100.png
+user1.scale-100.png
 vehicule.scale-100.jpg
 splashSplashScreen.scale-100.png
 splashSplashScreen.scale-125.png

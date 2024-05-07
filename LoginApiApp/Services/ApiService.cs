@@ -1,6 +1,7 @@
 ﻿using LoginApiApp.Dtos;
 using LoginApiApp.Models;
 using Newtonsoft.Json;
+using RestSharp;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -9,190 +10,181 @@ namespace LoginApiApp.Services
 {
     public class ApiService
     {
-        private readonly HttpClient _httpClient;
+        private readonly RestClient _client;
 
-        public ApiService(IHttpClientFactory httpClientFactory)
+        public ApiService()
         {
-            _httpClient = httpClientFactory.CreateClient("ApiServiceClient");
+            _client = new RestClient("http://192.168.4.223:5178/api");
         }
 
-        private async Task AttachAuthorizationHeader()
+        private async Task<RestRequest> CreateRequest(string resource, Method method, object body = null)
         {
+            var request = new RestRequest(resource, method);
             var token = await SecureStorage.GetAsync("jwt_token");
+            Console.WriteLine($"Using JWT token :{token}");
             if (!string.IsNullOrEmpty(token))
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                request.AddHeader("Authorization", $"Bearer {token}");
             }
+            else
+            {
+                Console.WriteLine("Jwt token is null or empty.");
+            }
+
+            if (body != null)
+            {
+                request.AddJsonBody(body);
+            }
+            return request;
         }
+
 
         public async Task<bool> RegisterAsync(string username, string password, string email, string role)
         {
-            var registerDto = new UserDto
+            var body = new
             {
                 UserName = username,
                 Password = password,
                 Email = email,
-                Role = role,
+                Role = role
             };
-
-            var content = new StringContent(JsonConvert.SerializeObject(registerDto), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("http://192.168.4.230:5178/api/Auth/register", content);
-
-            return response.IsSuccessStatusCode;
+            var request = await CreateRequest("/Auth/register", Method.Post, body);
+            var response = await _client.ExecuteAsync(request);
+            return response.IsSuccessful;
         }
 
         public async Task<UserDto?> LoginAsync(string username, string password)
         {
-            try
-            {
-
-                var loginRequest = new { Username = username, Password = password };
-                var loginUrl = "http://192.168.4.230:5178/api/Auth/login";
-                var content = new StringContent(JsonConvert.SerializeObject(loginRequest), Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await _httpClient.PostAsync(loginUrl, content);
-                if (response.IsSuccessStatusCode)
-                {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-
-                    var user = JsonConvert.DeserializeObject<UserDto>(jsonResponse);
-                    return user;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error in LoginAsync: {ex.Message}");
+            var body = new { Username = username, Password = password };
+            var request = await CreateRequest("/Auth/login", Method.Post, body);
+            var response = await _client.ExecuteAsync<UserDto>(request);
+            if (response.IsSuccessful)
+            {               
+                return response.Data;
             }
             return null;
         }
 
+
         public async Task<bool> RefreshTokenAsync(string refreshToken)
         {
-            var refreshDto = new { Token = refreshToken };
-            var content = new StringContent(JsonConvert.SerializeObject(refreshDto), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("http://192.168.4.230:5178/api/Auth/refresh", content);
-
-            if (response.IsSuccessStatusCode)
+            var body = new { Token = refreshToken };
+            var request = await CreateRequest("/Auth/refresh", Method.Post, body);
+            var response = await _client.ExecuteAsync(request);
+            if (response.IsSuccessful)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                var newTokenDetails = JsonConvert.DeserializeObject<dynamic>(json);
-                var newToken = (string)newTokenDetails?.token;
-                var newRefreshToken = (string)newTokenDetails?.refreshToken;
-                if(! string.IsNullOrWhiteSpace(newToken) && ! string.IsNullOrWhiteSpace(newRefreshToken))
-                {
-                    await SecureStorage.SetAsync("jwt_token", newToken);
-                    await SecureStorage.SetAsync("refreshToken",newRefreshToken);
-
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",newToken);
-                    return true;
-
-                }
+                var updatedToken = JsonConvert.DeserializeObject<dynamic>(response.Content);
+                await SecureStorage.SetAsync("jwt_token", updatedToken.token);
+                await SecureStorage.SetAsync("refreshToken", updatedToken.refreshToken);
+                return true;
             }
-
-            return false;
+            else
+            {
+                Console.WriteLine($"Failed to refresh token : {response.ErrorMessage}");
+                return false;
+            }
+            
         }
 
 
         public async Task<List<Trajet>> GetTrajetsAsync()
         {
-            var url = "http://192.168.4.230:5178/api/Trajet";
-            var response = await _httpClient.GetAsync(url);
+            try
+            {
+                var request = await CreateRequest("/Trajet", Method.Get);
+                var response = await _client.ExecuteAsync<List<Trajet>>(request);
+                Console.WriteLine($"Status Code: {response.StatusCode}, Response: {response.Content}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                await AttachAuthorizationHeader();
-                var json = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Trajet>>(json);
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                var refresheToken = await SecureStorage.GetAsync("refreshToken");
-            if (refresheToken != null)
+                if (response.IsSuccessful)
                 {
-                    var isRefreshed = await RefreshTokenAsync(refresheToken);
-                    if (isRefreshed)
-                    {
-                        return await GetTrajetsAsync();
-                    }
-                    }
-               
-                    await Shell.Current.GoToAsync(nameof(LoginPage));
+                    return response.Data ?? new List<Trajet>();
+                }
+                else
+                {
+                    Console.WriteLine($"Error fetching trajets: {response.ErrorMessage}");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching data : {response.StatusCode}");
+                Console.WriteLine($"Exception in GetTrajetsAsync: {ex.Message}");
             }
+
             return new List<Trajet>();
         }
-        public async Task<TrajetDto?> GetTrajetAsync(int id)
+
+        public async Task<TrajetDto> GetTrajetAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"http://192.168.4.230:5178/api/Trajet/{id}");
-            if (response.IsSuccessStatusCode)
+            var request = await CreateRequest($"/Trajet/{id}", Method.Get);
+            var response = await _client.ExecuteAsync<TrajetDto>(request);
+            if (response.IsSuccessful)
             {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TrajetDto>(jsonResponse);
+                return response.Data;
             }
             return null;
         }
 
+
         public async Task<bool> AddTrajetAsync(TrajetDto trajetDto)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(trajetDto), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("http://192.168.4.230:5178/api/Trajet", content);
-            return response.IsSuccessStatusCode;
+            var request = await CreateRequest("/Trajet", Method.Post, trajetDto);
+            var response = await _client.ExecuteAsync(request);
+            return response.IsSuccessful;
         }
 
         public async Task<bool> EditTrajetAsync(int id, TrajetDto trajetDto)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(trajetDto), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"http://192.168.4.230:5178/api/Trajet/{id}", content);
-            return response.IsSuccessStatusCode;
+            var request = await CreateRequest($"/Trajet/{id}", Method.Put, trajetDto);
+            var response = await _client.ExecuteAsync(request);
+            return response.IsSuccessful;
         }
 
         public async Task<bool> DeleteTrajetAsync(int trajetId)
         {
-            var response = await _httpClient.DeleteAsync($"http://192.168.4.230:5178/api/Trajet/{trajetId}");
-            return response.IsSuccessStatusCode;
+            var request = await CreateRequest($"/Trajet/{trajetId}", Method.Delete);
+            var response = await _client.ExecuteAsync(request);
+            return response.IsSuccessful;
         }
-        public async Task<List<Vehicule>> GetVehiculesAsync()
+
+         public async Task<List<Vehicule>> GetVehiculesAsync()
         {
-            var url = "http://192.168.4.230:5178/api/Vehicule";
-            var response = await _httpClient.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
+            var request = await CreateRequest("/Vehicule", Method.Get);
+            var response = await _client.ExecuteAsync<List<Vehicule>>(request);
+            if (response.IsSuccessful)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                return System.Text.Json.JsonSerializer.Deserialize<List<Vehicule>>(json);
+                return response.Data;
             }
-
             return new List<Vehicule>();
         }
+
         public async Task<VehiculeDto?> GetVehiculeAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"http://192.168.4.230:5178/api/Vehicule/{id}");
-            if (response.IsSuccessStatusCode)
+            var request = await CreateRequest($"/Vehicule/{id}", Method.Get);
+            var response = await _client.ExecuteAsync<VehiculeDto>(request);
+            if (response.IsSuccessful)
             {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<VehiculeDto>(jsonResponse);
+                return response.Data;
             }
             return null;
         }
+
         public async Task<bool> AddVehiculeAsync(VehiculeDto vehiculeDto)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(vehiculeDto), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("http://192.168.4.230:5178/api/Vehicule", content);
-            return response.IsSuccessStatusCode;
+            var request = await CreateRequest("/Vehicule", Method.Post, vehiculeDto);
+            var response = await _client.ExecuteAsync(request);
+            return response.IsSuccessful;
         }
         public async Task<bool> EditVehiculeAsync(int id, VehiculeDto vehiculeDto)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(vehiculeDto), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"http://192.168.4.230:5178/api/Vehicule/{id}", content);
-            return response.IsSuccessStatusCode;
+            var request = await CreateRequest($"/Vehicule/{id}", Method.Put, vehiculeDto);
+            var response = await _client.ExecuteAsync(request);
+            return response.IsSuccessful;
         }
+
         public async Task<bool> DeleteVehiculeAsync(int vehiculeId)
         {
-            var response = await _httpClient.DeleteAsync($"http://192.168.4.230:5178/api/Vehicule/{vehiculeId}");
-            return response.IsSuccessStatusCode;
+            var request = await CreateRequest($"/Vehicule/{vehiculeId}", Method.Delete);
+            var response = await _client.ExecuteAsync(request);
+            return response.IsSuccessful;
         }
     }
 }

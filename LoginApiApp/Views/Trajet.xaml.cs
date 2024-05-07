@@ -1,3 +1,4 @@
+using LoginApiApp.Services;
 using System.Net.Http;
 using System.Text.Json;
 
@@ -5,11 +6,11 @@ namespace LoginApiApp.Views;
 
 public partial class Trajet : ContentPage
 {
-    private readonly HttpClient _httpClient = new HttpClient();
-
-    public Trajet()
+    private readonly ApiService _apiService;
+    public Trajet(ApiService apiService)
 	{
         InitializeComponent();
+        _apiService = apiService;
 	}
 
     private async void OnTrajetClicked(object sender, EventArgs e)
@@ -18,45 +19,31 @@ public partial class Trajet : ContentPage
     }
     private async Task LoadDataAsync()
     {
-        var url = "http://192.168.4.230:5178/api/Trajet";
-        try
+        var trajetsList = await _apiService.GetTrajetsAsync();
+        if (trajetsList != null)
         {
-            var response = await _httpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                // Convert the JSON response to a list of objects
-                var trajetsList = JsonSerializer.Deserialize<List<LoginApiApp.Models.Trajet>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                if (trajetsList != null)
-                {
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        TrajetGrid.Children.Clear();
-                        TrajetGrid.RowDefinitions.Clear();
-                        TrajetGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                        AddHeaderToGrid("Trajet ID", 0);
-                        AddHeaderToGrid("Date", 1);
-                        AddHeaderToGrid("Kilometrage", 2);
-                        AddHeaderToGrid("Duree", 3);
-                        AddHeaderToGrid("Gains ", 4);
-                        AddHeaderToGrid("Vehicule ID ", 5);
+                TrajetGrid.Children.Clear();
+                TrajetGrid.RowDefinitions.Clear();
+                TrajetGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-                        // Add rows for the data
-                        foreach (var trajet in trajetsList)
-                        {
-                            AddRowToGrid(trajet);
-                        }
-                    });
+                AddHeaderToGrid("Trajet ID", 0);
+                AddHeaderToGrid("Date", 1);
+                AddHeaderToGrid("Kilometrage", 2);
+                AddHeaderToGrid("Duree", 3);
+                AddHeaderToGrid("Gains", 4);
+                AddHeaderToGrid("Vehicule ID", 5);
+
+                foreach (var trajet in trajetsList)
+                {
+                    AddRowToGrid(trajet);
                 }
-            }
-            else
-            {
-                Console.WriteLine($"Error fetching data: {response.ReasonPhrase}");
-            }
+            });
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine($"Exception fetching data: {ex.Message}");
+            await DisplayAlert("Error", "Failed to fetch trajets.", "OK");
         }
     }
     private void AddHeaderToGrid(string headerText, int columnIndex)

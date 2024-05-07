@@ -57,9 +57,10 @@
 
 
             <Label Text="Select Role:" FontAttributes="Bold" FontSize="Medium" />
-                <RadioButton GroupName="Roles" Content="Manager" CheckedChanged="OnRoleChecked" />
-                <RadioButton GroupName="Roles" Content="AgentExploitation" CheckedChanged="OnRoleChecked" />
-                <RadioButton GroupName="Roles" Content="AgentCommercial" CheckedChanged="OnRoleChecked" />
+                <RadioButton GroupName="Roles" Content="Manager Exploitation" CheckedChanged="OnRoleChecked" />
+               <RadioButton GroupName="Roles" Content="Manager Commercial" CheckedChanged="OnRoleChecked" />
+                <RadioButton GroupName="Roles" Content="Agent Exploitation" CheckedChanged="OnRoleChecked" />
+                <RadioButton GroupName="Roles" Content="Agent Commercial" CheckedChanged="OnRoleChecked" />
 
             
             <Button x:Name="btnRegister"   

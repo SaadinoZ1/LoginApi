@@ -19,7 +19,7 @@ namespace LoginApiApp
 
 #if DEBUG
     		builder.Logging.AddDebug();
-            builder.Services.AddHttpClient("ApiServiceClient", client => { client.BaseAddress = new Uri("http://192.168.4.222:5178/api/"); } );
+            builder.Services.AddHttpClient("ApiServiceClient", client => { client.BaseAddress = new Uri("http://192.168.4.223:5178/api/"); } );
 #endif
             builder.Services.AddSingleton<ApiService>();
             builder.Services.AddTransient<LoginPage>();
