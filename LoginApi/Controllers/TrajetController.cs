@@ -27,7 +27,7 @@ namespace LoginApi.Controllers
             return Ok(trajetDto);
         }
 
-        [HttpGet,Authorize(Roles = "AgentExploitation")]
+        [HttpGet,Authorize(Roles = "AgentExploitation, Manager Exploitation")]
         public async Task<ActionResult<List<TrajetDto>>> GetAllTrajets()
         {
             var trajets = await _context.Trajets.ToListAsync();
@@ -35,7 +35,7 @@ namespace LoginApi.Controllers
 
             return Ok(trajetsDto);
         }
-        [HttpGet("{Id}"), Authorize(Roles = "AgentCommercial")]
+        [HttpGet("{Id}"), Authorize(Roles = "AgentCommercial, Manager Commercial")]
         public async Task<ActionResult<TrajetDto>> GetTrajet(int Id)
         {
             var trajets = await _context.Trajets.FindAsync(Id);
@@ -76,9 +76,5 @@ namespace LoginApi.Controllers
 
             return Ok();
         }
-
-      
-
-
     }
 }
