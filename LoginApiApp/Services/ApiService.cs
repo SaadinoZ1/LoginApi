@@ -14,7 +14,7 @@ namespace LoginApiApp.Services
 
         public ApiService()
         {
-            _client = new RestClient("http://192.168.4.223:5178/api");
+            _client = new RestClient("http://192.168.4.230:5178/api");
         }
 
         private async Task<RestRequest> CreateRequest(string resource, Method method, object body = null)
@@ -58,8 +58,11 @@ namespace LoginApiApp.Services
             var body = new { Username = username, Password = password };
             var request = await CreateRequest("/Auth/login", Method.Post, body);
             var response = await _client.ExecuteAsync<UserDto>(request);
-            if (response.IsSuccessful)
-            {               
+            if (response.IsSuccessful && !string.IsNullOrWhiteSpace(response.Content))
+            {
+                Dictionary<string, string> _Token = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Content);
+                await SecureStorage.SetAsync("jwt_token", _Token["token"]);
+                await SecureStorage.SetAsync("refreshToken", _Token["refreshToken"]);
                 return response.Data;
             }
             return null;
